@@ -20,8 +20,8 @@ public class ShipsCore extends DummyModContainer {
 		meta.name = "Ships Mod Core";
 		meta.version = Ships.Version;
 		meta.authorList = Arrays.asList("Cuchaz");
-		meta.description = "Build sailable ships out of blocks.";
-		meta.url = "http://www.cuchazinteractive.com/ships";
+		meta.description = "Core mod for the Cuchaz ship mod.";
+		meta.url = "https://github.com/TeloDev/Cuchaz-Ships";
 		meta.credits = "Created by Cuchaz";
 	}
 	

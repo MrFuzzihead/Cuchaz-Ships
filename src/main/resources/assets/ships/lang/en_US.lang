@@ -54,3 +54,5 @@ cuchaz.ships.Slept=Naps are nap-a-licious!
 cuchaz.ships.BerthNotFound=Berth was not found!
 cuchaz.ships.TryOnStillWater=Try using this on top of still water
 cuchaz.ships.ShipDataCorrupted=Ship data appears to be corrupted. =(
+
+entity.cuchaz.ships.Ship.name=Ship
