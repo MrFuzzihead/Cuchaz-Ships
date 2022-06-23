@@ -37,7 +37,7 @@ public class CoreModTransformer implements IClassTransformer {
 		
 		try {
 			// don't transform some important stuff
-			List<String> privilegedPackages = Arrays.asList("cuchaz.ships.", "cuchaz.modsShared", "net.minecraftforge.", "cpw.");
+			List<String> privilegedPackages = Arrays.asList("cuchaz.ships.", "cuchaz.modsShared", "net.minecraftforge.", "cpw.", "makamys.mixingasm.", "codechicken.nei.", "bq_standard.", "eu.ha3.matmos.", "technicianlp.reauth.", "betterquesting.");
 			for (String privilegedPackage : privilegedPackages) {
 				if (name.startsWith(privilegedPackage)) {
 					return classData;

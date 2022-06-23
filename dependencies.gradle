@@ -1,0 +1,7 @@
+// Add your dependencies here
+
+dependencies {
+
+    compile 'com.github.GTNewHorizons:NotEnoughItems:2.2.11-GTNH:dev'
+
+}
