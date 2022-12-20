@@ -270,10 +270,10 @@ public class Quaternion {
 	public void multiplyLeft(Quaternion other) {
 		/*
 			q1q2
-			= (a1a2 − b1b2 − c1c2 − d1d2)
-			+ (a1b2 + b1a2 + c1d2 − d1c2)i
-			+ (a1c2 − b1d2 + c1a2 + d1b2)j
-			+ (a1d2 + b1c2 − c1b2 + d1a2)k
+			= (a1a2 - b1b2 - c1c2 - d1d2)
+			+ (a1b2 + b1a2 + c1d2 - d1c2)i
+			+ (a1c2 - b1d2 + c1a2 + d1b2)j
+			+ (a1d2 + b1c2 - c1b2 + d1a2)k
 			other = q1
 			this = q2
 		*/
