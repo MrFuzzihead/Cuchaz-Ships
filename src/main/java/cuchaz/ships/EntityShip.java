@@ -151,7 +151,7 @@ public class EntityShip extends Entity {
 		m_collider.computeShipBoundingBox(boundingBox, posX, posY, posZ, rotationYaw);
 		
 		// LOGGING
-		Ships.logger.info(String.format("EntityShip %d initialized at (%.2f,%.2f,%.2f) + (%.4f,%.4f,%.4f)",
+		Ships.logger.debug(String.format("EntityShip %d initialized at (%.2f,%.2f,%.2f) + (%.4f,%.4f,%.4f)",
 			this.getEntityId(), posX, posY, posZ, motionX, motionY, motionZ
 		));
 	}
@@ -161,7 +161,7 @@ public class EntityShip extends Entity {
 		super.setDead();
 		
 		// LOGGING
-		Ships.logger.info("EntityShip %d died!", getEntityId());
+		Ships.logger.debug("EntityShip %d died!", getEntityId());
 		
 		// only restore blocks on the server
 		if (Environment.isServer()) {

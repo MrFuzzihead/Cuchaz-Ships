@@ -54,4 +54,12 @@ public class EnhancedLogger {
 	public void info(Throwable t, String message, Object... args) {
 		log(Level.INFO, String.format(message, args), t);
 	}
+
+	public void debug(String message, Object... args) {
+		log(Level.DEBUG, String.format(message, args));
+	}
+
+	public void debug(Throwable t, String message, Object... args) {
+		log(Level.DEBUG, String.format(message, args), t);
+	}
 }
