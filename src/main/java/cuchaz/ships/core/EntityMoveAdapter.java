@@ -11,6 +11,7 @@
 package cuchaz.ships.core;
 
 import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -38,18 +39,43 @@ public class EntityMoveAdapter extends ObfuscationAwareAdapter {
 	
 	@Override
 	public MethodVisitor visitMethod(int access, final String methodName, String methodDesc, String signature, String[] exceptions) {
-		return new MethodVisitor(api, cv.visitMethod(access, methodName, methodDesc, signature, exceptions)) {
-			
-			@Override
-			public void visitMethodInsn(int opcode, String calledOwner, String calledName, String calledDesc) {
-				// should we transform this method call?
-				if (opcode == Opcodes.INVOKEVIRTUAL && calledDesc.equals("(DDD)V")
-						&& calledName.equals(getRuntimeMethodName(m_className, "moveEntity", "func_70091_d"))) {
-					mv.visitMethodInsn(Opcodes.INVOKESTATIC, ShipIntermediary.Path, "onEntityMove", String.format("(L%s;DDD)V", EntityClassName));
-				} else {
-					super.visitMethodInsn(opcode, calledOwner, calledName, calledDesc);
-				}
+		if (m_className.equals(EntityClassName)) {
+			// void moveEntity( double, double, double )
+			// func_70091_d
+			if (methodDesc.equals("(DDD)V") && methodName.equals(getRuntimeMethodName(m_className, "moveEntity", "func_70091_d"))) {
+				return new MethodVisitor(api, cv.visitMethod(access, methodName, methodDesc, signature, exceptions)) {
+
+					@Override
+					public void visitCode() {
+						// insert a call to our intermediate
+						// nothing on the stack, push this to stack, push the arguments to the stack, then invoke intermediary
+						mv.visitVarInsn(Opcodes.ALOAD, 0);
+						mv.visitVarInsn(Opcodes.DLOAD, 1);
+						mv.visitVarInsn(Opcodes.DLOAD, 3);
+						mv.visitVarInsn(Opcodes.DLOAD, 5);
+						mv.visitMethodInsn(Opcodes.INVOKESTATIC, ShipIntermediary.Path, "preEntityMove", String.format("(L%s;DDD)V", EntityClassName));
+
+						super.visitCode();
+					}
+
+					@Override
+					public void visitInsn(int opcode) {
+						if (opcode == Opcodes.RETURN) {
+							// just before the final return statement, insert our call
+							mv.visitVarInsn(Opcodes.ALOAD, 0);
+							mv.visitVarInsn(Opcodes.DLOAD, 1);
+							mv.visitVarInsn(Opcodes.DLOAD, 3);
+							mv.visitVarInsn(Opcodes.DLOAD, 5);
+							mv.visitMethodInsn(Opcodes.INVOKESTATIC, ShipIntermediary.Path, "postEntityMove", String.format("(L%s;DDD)V", EntityClassName));
+						}
+
+						// and add the return as normal
+						super.visitInsn(opcode);
+					}
+				};
 			}
-		};
+		}
+
+		return super.visitMethod(access, methodName, methodDesc, signature, exceptions);
 	}
 }
