@@ -88,9 +88,14 @@ public class ShipIntermediary {
 		return translateDistance(world, player, x, y, z);
 	}
 	
-	public static void onEntityMove(Entity entity, double dx, double dy, double dz) {
+	public static void preEntityMove(Entity entity, double dx, double dy, double dz) {
 		// just forward to the collider
-		Collider.onEntityMove(entity, dx, dy, dz);
+		Collider.preEntityMove(entity, dx, dy, dz);
+	}
+
+	public static void postEntityMove(Entity entity, double dx, double dy, double dz) {
+		// just forward to the collider
+		Collider.postEntityMove(entity, dx, dy, dz);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
