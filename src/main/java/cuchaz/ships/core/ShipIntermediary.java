@@ -82,7 +82,8 @@ public class ShipIntermediary {
 			);
 			z = fieldZ.getInt(container);
 		} catch (Exception ex) {
-			Ships.logger.warning(ex, "Unable to reflect on container class: %s", container.getClass().getName());
+			Ships.logger.warnOnce(ex, "Unable to reflect on container class: %s", container.getClass().getName());
+			return player.getDistanceSq(containerX, containerY, containerZ);
 		}
 		
 		return translateDistance(world, player, x, y, z);

@@ -15,9 +15,14 @@ import org.apache.logging.log4j.Logger;
 
 import cuchaz.modsShared.Environment;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class EnhancedLogger {
 	
 	private Logger m_logger;
+
+	private static final Set<String> shownWarnings = new HashSet<>();
 	
 	public EnhancedLogger(Logger logger) {
 		m_logger = logger;
@@ -45,6 +50,14 @@ public class EnhancedLogger {
 	
 	public void warning(Throwable t, String message, Object... args) {
 		log(Level.WARN, String.format(message, args), t);
+	}
+
+	public void warnOnce(Throwable t, String message, Object... args) {
+		String msg = String.format(message, args);
+		if(!shownWarnings.contains(msg)) {
+			shownWarnings.add(msg);
+			log(Level.WARN, msg, t);
+		}
 	}
 	
 	public void info(String message, Object... args) {
