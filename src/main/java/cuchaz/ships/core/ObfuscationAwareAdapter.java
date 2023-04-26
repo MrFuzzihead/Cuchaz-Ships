@@ -10,12 +10,7 @@
  ******************************************************************************/
 package cuchaz.ships.core;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-
 import org.objectweb.asm.ClassVisitor;
-
-import cpw.mods.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 
 public class ObfuscationAwareAdapter extends ClassVisitor {
 	
@@ -34,49 +29,14 @@ public class ObfuscationAwareAdapter extends ClassVisitor {
 	public void setPreviousClassVisitor(ClassVisitor val) {
 		cv = val;
 	}
-	
+
 	protected String getRuntimeMethodName(String runtimeClassName, String clearMethodName, String idMethodName) {
 		if (m_isObfuscatedEnvironment) {
-			return methodMapReverseLookup(getMethodMap(runtimeClassName), idMethodName);
+			/* Ideally we should just return idMethodName, but the original code behaved like this, and I don't want
+			   to deal with fixing what changing it might break. */
+			return runtimeClassName.startsWith("net/minecraft/") ? idMethodName : "";
 		} else {
 			return clearMethodName;
 		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private Map<String,String> getMethodMap(String obfuscatedClassName) {
-		// sadly, the method maps are private
-		// let's fix that
-		try {
-			Field field = FMLDeobfuscatingRemapper.class.getDeclaredField("methodNameMaps");
-			field.setAccessible(true);
-			
-			return ((Map<String,Map<String,String>>)field.get(FMLDeobfuscatingRemapper.INSTANCE)).get(obfuscatedClassName);
-		} catch (Exception ex) {
-			throw new Error("Unable to access FML's deobfuscation mappings!", ex);
-		}
-	}
-	
-	private String methodMapReverseLookup(Map<String,String> methodMap, String idMethodName) {
-		// did we not get a method map? just pass through the method name
-		if (methodMap == null) {
-			return idMethodName;
-		}
-		
-		// methodNameMaps = Map<obfuscated class name,Map<obfuscated method name + signature,id method name>>
-		for (Map.Entry<String,String> entry : methodMap.entrySet()) {
-			if (entry.getValue().equals(idMethodName)) {
-				String obfuscatedName = entry.getKey();
-				
-				// chop off the signature
-				// ie, turn "a(III)V" into just "a"
-				
-				return obfuscatedName.substring(0, obfuscatedName.indexOf("("));
-			}
-		}
-		
-		// no method was found
-		// return empty string so it fails comparisons with expected values, but doesn't throw exceptions
-		return "";
 	}
 }
