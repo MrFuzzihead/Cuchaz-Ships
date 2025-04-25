@@ -802,11 +802,11 @@ if (!project.getGradle().startParameter.isOffline() && isNewBuildScriptVersionAv
 }
 
 static URL availableBuildScriptUrl() {
-    new URL("https://raw.githubusercontent.com/GTNewHorizons/ExampleMod1.7.10/master/build.gradle")
+    new URL("https://raw.githubusercontent.com/GTNewHorizons/ExampleMod1.7.10/master/build.gradle.kts")
 }
 
 static URL exampleSettingsGradleUrl() {
-    new URL("https://raw.githubusercontent.com/GTNewHorizons/ExampleMod1.7.10/master/settings.gradle.example")
+    new URL("https://raw.githubusercontent.com/GTNewHorizons/ExampleMod1.7.10/master/settings.gradle.kts")
 }
 
 static URL exampleGitAttributesUrl() {
