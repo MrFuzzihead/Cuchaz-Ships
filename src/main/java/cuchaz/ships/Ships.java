@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ * <p>
  * Contributors:
  * jeff - initial API and implementation
  ******************************************************************************/
@@ -73,23 +73,18 @@ import cuchaz.ships.render.RenderShip;
 import cuchaz.ships.render.TileEntityHelmRenderer;
 import cuchaz.ships.render.TileEntityProjectorRenderer;
 
-@Mod(
-    modid = "GRADLETOKEN_MODID",
-    name = "GRADLETOKEN_MODNAME",
-    version = "GRADLETOKEN_VERSION",
-    // ;required-after:cuchaz.cuchazinteractive
-    dependencies = "required-after:Forge@[10.13.2.1230,);required-after:cuchaz.ships.core",
-    acceptedMinecraftVersions = "[1.7.10,)")
+@Mod(modid = Ships.MODID, name = Ships.MODNAME, version = Tags.VERSION, acceptedMinecraftVersions = Ships.MCVERSION)
 public class Ships {
 
-    public static final String Id = "GRADLETOKEN_MODID";
-    public static final String Version = "GRADLETOKEN_VERSION";
-    public static final String VersionUrl = "http://www.cuchazinteractive.com/ships/versions.json";
+    public static final String MODID = "cuchaz.ships";
+    public static final String MODNAME = "Ships Mod";
+    public static final String MCVERSION = "1.7.10";
+    public static final String VersionUrl = "https://www.cuchazinteractive.com/ships/versions.json";
 
-    @Mod.Instance(Id)
+    @Mod.Instance(MODID)
     public static Ships instance = null;
 
-    public static EnhancedLogger logger = new EnhancedLogger(LogManager.getLogger(Id));
+    public static EnhancedLogger logger = new EnhancedLogger(LogManager.getLogger(MODID));
     public static PacketRegistry net = null;
 
     // materials
@@ -121,10 +116,10 @@ public class Ships {
         // the event dispatcher swallows exceptions, so report them here
         try {
             // check version
-            FMLInterModComms.sendRuntimeMessage(Id, "VersionChecker", "addVersionCheck", VersionUrl);
+            FMLInterModComms.sendRuntimeMessage(MODID, "VersionChecker", "addVersionCheck", VersionUrl);
 
             // register for network support
-            net = new PacketRegistry(Id);
+            net = new PacketRegistry(MODID);
             net.register(new PacketLaunchShip());
             net.register(new PacketShipLaunched());
             net.register(new PacketUnlaunchShip());
@@ -190,7 +185,6 @@ public class Ships {
     }
 
     @SideOnly(Side.CLIENT)
-    @SuppressWarnings("unchecked")
     private void registerTileEntityRenderer(Class<? extends TileEntity> c, TileEntitySpecialRenderer renderer) {
         TileEntityRendererDispatcher.instance.mapSpecialRenderers.put(c, renderer);
         renderer.func_147497_a(TileEntityRendererDispatcher.instance);

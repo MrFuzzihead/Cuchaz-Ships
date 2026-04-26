@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ * <p>
  * Contributors:
  * Jeff Martin - initial API and implementation
  ******************************************************************************/
@@ -21,8 +21,6 @@ import cuchaz.ships.EntityShip;
 import cuchaz.ships.HitList;
 
 public class ShipIntermediaryClient {
-
-    public static final String Path = "cuchaz/ships/core/ShipIntermediaryClient";
 
     @SideOnly(Side.CLIENT)
     public static void onFoundHit() {
