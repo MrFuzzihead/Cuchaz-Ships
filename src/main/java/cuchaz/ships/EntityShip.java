@@ -456,8 +456,8 @@ public class EntityShip extends Entity {
                     // Eject: extract the record and give it directly to the player's inventory
                     // instead of letting BlockJukebox spawn an EntityItem inside ShipWorld.
                     if (!m_shipWorld.isRemote) {
-                        BlockJukebox.TileEntityJukebox te =
-                            (BlockJukebox.TileEntityJukebox) m_shipWorld.getTileEntity(bx, by, bz);
+                        BlockJukebox.TileEntityJukebox te = (BlockJukebox.TileEntityJukebox) m_shipWorld
+                            .getTileEntity(bx, by, bz);
                         if (te != null) {
                             ItemStack record = te.func_145856_a();
                             if (record != null) {
@@ -480,15 +480,9 @@ public class EntityShip extends Entity {
                     ItemStack heldItem = player.getHeldItem();
                     if (heldItem != null && heldItem.getItem() instanceof ItemRecord) {
                         if (!m_shipWorld.isRemote) {
-                            ((BlockJukebox) Blocks.jukebox)
-                                .func_149926_b(m_shipWorld, bx, by, bz, heldItem);
-                            m_shipWorld.playAuxSFXAtEntity(
-                                null,
-                                1005,
-                                bx,
-                                by,
-                                bz,
-                                Item.getIdFromItem(heldItem.getItem()));
+                            ((BlockJukebox) Blocks.jukebox).func_149926_b(m_shipWorld, bx, by, bz, heldItem);
+                            m_shipWorld
+                                .playAuxSFXAtEntity(null, 1005, bx, by, bz, Item.getIdFromItem(heldItem.getItem()));
                             heldItem.stackSize--;
                             if (heldItem.stackSize == 0) {
                                 player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
