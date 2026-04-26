@@ -1,0 +1,32 @@
+{
+  "required": true,
+  "minVersion": "0.8.3-GTNH",
+  "package": "cuchaz.ships.mixins.early.minecraft",
+  "refmap": "mixins.cuchaz.ships.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "IMixinEntity",
+    "IMixinEntityPlayer",
+
+    "MixinEntity",
+    "MixinEntityLivingBase",
+    "MixinEntityPlayerInject",
+    "MixinServerConfigurationManager",
+    "MixinWorld",
+
+    "MixinContainerWorkbench",
+    "MixinContainerEnchantment",
+    "MixinContainerRepair",
+    "MixinTileEntityChest",
+    "MixinTileEntityFurnace",
+    "MixinTileEntityDispenser",
+    "MixinTileEntityHopper",
+    "MixinTileEntityBrewingStand",
+    "MixinTileEntityEnderChest",
+    "MixinTileEntityBeacon"
+  ],
+  "client": [
+    "MixinEntityRenderer"
+  ]
+}

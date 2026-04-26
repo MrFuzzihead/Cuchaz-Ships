@@ -4,13 +4,12 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ * <p>
  * Contributors:
  * jeff - initial API and implementation
  ******************************************************************************/
 package cuchaz.ships.core;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import net.minecraft.command.IEntitySelector;
@@ -19,23 +18,18 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import cuchaz.modsShared.Environment;
 import cuchaz.ships.Collider;
 import cuchaz.ships.EntityShip;
 import cuchaz.ships.PlayerRespawner;
 import cuchaz.ships.ShipLocator;
 import cuchaz.ships.ShipWorld;
-import cuchaz.ships.Ships;
 
 public class ShipIntermediary {
-
-    public static final String Path = "cuchaz/ships/core/ShipIntermediary";
 
     public static World translateWorld(World world, InventoryPlayer inventory) {
         // are we looking at a ship?
@@ -53,54 +47,7 @@ public class ShipIntermediary {
         return translateDistance(tileEntity.getWorldObj(), player, tileEntityX, tileEntityY, tileEntityZ);
     }
 
-    public static double getEntityDistanceSq(EntityPlayer player, double containerX, double containerY,
-        double containerZ, Container container) {
-        // get private data from the container
-        World world = null;
-        int x = 0;
-        int y = 0;
-        int z = 0;
-        try {
-            Field fieldWorld = getField(
-                container,
-                Environment.getRuntimeName("worldObj", "field_75161_g"), // ContainerWorkbench
-                Environment.getRuntimeName("worldPointer", "field_75172_h"), // ContainerEnchantment
-                Environment.getRuntimeName("theWorld", "field_82860_h") // ContainerRepair
-            );
-            world = (World) fieldWorld.get(container);
-
-            Field fieldX = getField(
-                container,
-                Environment.getRuntimeName("posX", "field_75164_h"), // ContainerWorkbench
-                Environment.getRuntimeName("posX", "field_75173_i"), // ContainerEnchantment
-                Environment.getRuntimeName("field_82861_i", "field_82861_i") // ContainerRepair
-            );
-            x = fieldX.getInt(container);
-
-            Field fieldY = getField(
-                container,
-                Environment.getRuntimeName("posY", "field_75165_i"), // ContainerWorkbench
-                Environment.getRuntimeName("posY", "field_75170_j"), // ContainerEnchantment
-                Environment.getRuntimeName("field_82858_j", "field_82858_j") // ContainerRepair
-            );
-            y = fieldY.getInt(container);
-
-            Field fieldZ = getField(
-                container,
-                Environment.getRuntimeName("posZ", "field_75163_j"), // ContainerWorkbench
-                Environment.getRuntimeName("posZ", "field_75171_k"), // ContainerEnchantment
-                Environment.getRuntimeName("field_82859_k", "field_82859_k") // ContainerRepair
-            );
-            z = fieldZ.getInt(container);
-        } catch (Exception ex) {
-            Ships.logger.warnOnce(
-                ex,
-                "Unable to reflect on container class: %s",
-                container.getClass()
-                    .getName());
-            return player.getDistanceSq(containerX, containerY, containerZ);
-        }
-
+    public static double getEntityDistanceSq(EntityPlayer player, double x, double y, double z, World world) {
         return translateDistance(world, player, x, y, z);
     }
 
@@ -180,19 +127,5 @@ public class ShipIntermediary {
             // no ship? just return the original result
             return player.getDistanceSq(x, y, z);
         }
-    }
-
-    private static Field getField(Object obj, String... names) {
-        for (Field field : obj.getClass()
-            .getDeclaredFields()) {
-            for (String name : names) {
-                if (field.getName()
-                    .equals(name)) {
-                    field.setAccessible(true);
-                    return field;
-                }
-            }
-        }
-        return null;
     }
 }

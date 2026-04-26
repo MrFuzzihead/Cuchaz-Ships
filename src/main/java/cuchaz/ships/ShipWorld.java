@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ * <p>
  * Contributors:
  * jeff - initial API and implementation
  ******************************************************************************/
@@ -647,6 +647,43 @@ public class ShipWorld extends DetachedWorld {
     }
 
     // NOTE: don't have to override playSoundToNearExcept() or playSoundAtEntity(), not called by blocks/tileEntities
+
+    @Override
+    public void playAuxSFX(int sfxID, int x, int y, int z, int auxData) {
+        // on the server, translate ship-local coords to world coords and delegate
+        if (Environment.isServer()) {
+            Vec3 v = Vec3.createVectorHelper(x, y, z);
+            m_ship.blocksToShip(v);
+            m_ship.shipToWorld(v);
+
+            m_ship.worldObj.playAuxSFX(
+                sfxID,
+                MathHelper.floor_double(v.xCoord),
+                MathHelper.floor_double(v.yCoord),
+                MathHelper.floor_double(v.zCoord),
+                auxData);
+        }
+
+        // on the client, just ignore — handled by the packet from the server
+    }
+
+    @Override
+    public void playRecord(String name, int x, int y, int z) {
+        // on the server, translate ship-local coords to world coords and delegate
+        if (Environment.isServer()) {
+            Vec3 v = Vec3.createVectorHelper(x, y, z);
+            m_ship.blocksToShip(v);
+            m_ship.shipToWorld(v);
+
+            m_ship.worldObj.playRecord(
+                name,
+                MathHelper.floor_double(v.xCoord),
+                MathHelper.floor_double(v.yCoord),
+                MathHelper.floor_double(v.zCoord));
+        }
+
+        // on the client, just ignore — handled by the packet from the server
+    }
 
     @Override
     public void playAuxSFXAtEntity(EntityPlayer player, int sfxID, int x, int y, int z, int auxData) {
